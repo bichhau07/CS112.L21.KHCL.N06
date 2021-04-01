@@ -1,0 +1,93 @@
+CS112.L21.KHCL – Giảng viên: Nguyễn Thanh Sơn
+Bài tập: Bài toán chia để trị
+NHÓM 6:
+-	Trần Tiến Hưng – 19521587
+-	Bùi Thị Bích Hậu – 19521483
+-	Lê Vinh Quang – 19522093
+
+Bài toán:
+-	Đếm số lá trên cấu trúc dữ liệu cây sử dụng thuật toán chia để trị với phương pháp đệ qui và không đệ qui.
+Giới thiệu:
+-	Cây là một cấu trúc dữ liệu được sử dụng rộng rãi gồm một tập hợp các nút được liên kết với nhau theo quan hệ cha – con.
+-	Cây tìm kiếm nhị phân là một cấu trúc dữ liệu cơ bản được sử dụng để xây dựng các cấu trúc dữ liệu trừu tượng hơn như các tập hợp, đa tập hợp, các dãy kết hợp.
+-	Để đếm được số lá có trong cây, trước hết ta phải tiến hành duyệt cây.
+-	Duyệt cây là việc lần lượt viếng thăm các đỉnh của cây theo một thứ tự nào đó. 
+-	Có 3 cách phổ biến để duyệt cây:
+o	Tiền tự (Pre-order) - NLR
+o	Trung tự (In-order) - LNR
+o	Hậu tự (Post-order) - LRN
+Ý tưởng bài toán :
+-	Ta sẽ duyệt qua tất cả các node của cây, kiểm tra nếu node nào không có node con thì sẽ chính là node lá
+-	Ta có thể sử dụng đệ quy để đếm số lá trong cây t :
+•	Nếu t rỗng thì trả về 0.
+•	Nếu t là node lá thì trả về 1.
+•	Các trường hợp còn lại thì trả về tổng hai hàm đệ quy có đối số là cây con bên trái t và cây con bên phải t.
+
+•	Ưu điểm phương pháp đệ quy :
+o	Nhìn code chương trình sẽ ngắn gọn hơn .
+•	Nhược điểm :
+o	Tốn dung lượng.
+o	Chậm.
+•	Code:
+•	def getLeafCount(node):
+•	    if node is None:
+•	        return 0 
+•	    if(node.left is None and node.right is None):
+•	        return 1 
+•	    else:
+•	        return getLeafCount(node.left) + getLeafCount(node.right)
+
+https://www.geeksforgeeks.org/write-a-c-program-to-get-count-of-leaf-nodes-in-a-binary-tree
+Ngoài ra ta cũng có thể đếm node lá bằng cách dùng queue:
+•	Khởi tạo một biến đếm cách duyệt:
+o	Lấy phần tử gốc cho vào queue.
+o	Sau đó lấy node từ queue ra rồi cho con trái và con phải thứ tự vào queue.
+o	Nếu lấy phần tử ra mà không có con -> đó là lá và tăng biến đếm lên 1
+o	lặp lại cho đến khi queue rỗng.
+Ưu điểm :
+-	Không tốn nhiều chi phí gọi hàm như khi dùng đệ quy nên chương trình chạy sẽ có phần nhanh hơn và ít tốn dung lượng hơn.
+Nhược điểm :
+-	 Code chương trình dài dòng.
+-	Vẫn phải duyệt qua tất cả node.
+ 
+Code:
+def getLeafCount(node):
+     
+    # If tree is empty
+    if (not node):
+        return 0
+ 
+    # Initialize empty queue.
+    q = Queue()
+ 
+    # Do level order traversal
+    # starting from root
+    count = 0 # Initialize count of leaves
+    q.put(node)
+    while (not q.empty()):
+        temp = q.queue[0]
+        q.get()
+ 
+        if (temp.left != None):
+            q.put(temp.left)
+        if (temp.right != None):
+            q.put(temp.right)
+        if (temp.left == None and
+            temp.right == None):
+            count += 1
+    return count
+
+https://www.geeksforgeeks.org/iterative-program-count-leaf-nodes-binary-tree
+
+Thuật toán tổng quát:
+-	Thuật toán này được áp dụng cho cả việc duyệt cây lẫn đếm lá, được chia làm 2 trường hợp:
+a)	Hai cây con có số node bằng nhau:
+-	T(n) = 2T(n/2) + c
+b)	Hai cây con chênh lệch nhau:
+-	T(n) = T(k) + T(n-k-1) + c
+o	Với n là tổng số node trên cây, k là số node bên cây con trái, n-k-1 là số node bên cây con phải, c là hằng số.
+	T(n) = n.T(0) + n.c
+o	T(0) có thể là một hằng số.
+Độ phức tạp:
+-	Độ phức tạp về thời gian: O(n)
+-	Độ phức tạp về không gian: O(1) hoặc O(n) với n là chiều cao cây.
