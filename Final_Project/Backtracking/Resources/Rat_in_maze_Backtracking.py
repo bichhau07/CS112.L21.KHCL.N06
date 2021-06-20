@@ -1,4 +1,5 @@
-
+ref: https://www.geeksforgeeks.org/rat-in-a-maze-backtracking-2/
+		
 N = 4
 
 # Hàm in ma trận đường đi
